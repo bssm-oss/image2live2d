@@ -1,0 +1,17 @@
+{
+  "version": "1",
+  "status": "failed",
+  "classification": "real_cubism_export_attempted",
+  "cubism_mode": "real_command",
+  "non_production_fixture": false,
+  "validation": {
+    "passed": false,
+    "errors": ["command not found: definitely-missing-image2live2d-command"]
+  },
+  "errors": [
+    {
+      "code": "missing_export_command",
+      "messages": ["command not found: definitely-missing-image2live2d-command"]
+    }
+  ]
+}

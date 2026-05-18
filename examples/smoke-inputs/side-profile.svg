@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="384" height="384" viewBox="0 0 384 384" role="img" aria-label="Side profile smoke character">
+  <rect width="384" height="384" fill="#111827"/>
+  <path d="M130 340c20-84 132-86 160 0z" fill="#0ea5e9"/>
+  <ellipse cx="198" cy="148" rx="64" ry="76" fill="#f4c7ab"/>
+  <path d="M130 122c34-74 132-64 142 30-42-30-82-34-142-30z" fill="#312e81"/>
+  <circle cx="224" cy="150" r="10" fill="#111827"/>
+  <path d="M224 198c12 8 24 8 34 0" fill="none" stroke="#be123c" stroke-width="6" stroke-linecap="round"/>
+  <path d="M260 162l38 12-36 18z" fill="#f4c7ab"/>
+</svg>

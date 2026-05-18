@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Synthetic anime-style placeholder">
+  <rect width="512" height="512" fill="#111827"/>
+  <circle cx="256" cy="176" r="92" fill="#f7d7c4"/>
+  <path d="M156 176c20-86 178-104 204 0-34-42-70-58-108-58s-68 18-96 58z" fill="#3b2f2f"/>
+  <ellipse cx="222" cy="176" rx="12" ry="18" fill="#111827"/>
+  <ellipse cx="290" cy="176" rx="12" ry="18" fill="#111827"/>
+  <path d="M224 230c22 18 48 18 70 0" fill="none" stroke="#9f1239" stroke-width="8" stroke-linecap="round"/>
+  <path d="M172 374c16-92 152-92 168 0z" fill="#6366f1"/>
+  <path d="M132 250c36 34 212 34 248 0v172H132z" fill="#1f2937" opacity="0.28"/>
+</svg>

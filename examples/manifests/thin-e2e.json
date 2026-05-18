@@ -1,0 +1,20 @@
+{
+  "version": "1",
+  "job_id": "thin-e2e-example",
+  "input": {
+    "image_path": "examples/thin-e2e/input/curated-anime-placeholder.svg",
+    "declared_scope": "curated anime-style sample for thin e2e validation"
+  },
+  "output_dir": "output/thin-e2e-example",
+  "requested_parts": ["head", "face", "eyes", "mouth", "hair", "torso"],
+  "quality_thresholds": {
+    "min_layer_confidence": 0.6,
+    "requires_capability_classification": true
+  },
+  "cubism_adapter": {
+    "mode": "env_or_demo",
+    "require_real_export": false,
+    "timeout_seconds": 120,
+    "expected_outputs": ["model3.json", "moc3", "textures"]
+  }
+}

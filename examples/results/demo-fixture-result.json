@@ -1,0 +1,11 @@
+{
+  "version": "1",
+  "status": "ok",
+  "classification": "demo_fixture",
+  "cubism_mode": "demo_adapter",
+  "non_production_fixture": true,
+  "validation": {
+    "passed": false,
+    "errors": ["demo fixture cannot satisfy real export validation"]
+  }
+}

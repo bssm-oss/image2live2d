@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="384" height="384" viewBox="0 0 384 384" role="img" aria-label="Front bust smoke character">
+  <rect width="384" height="384" fill="#0f172a"/>
+  <path d="M116 340c14-76 138-76 152 0z" fill="#4f46e5"/>
+  <circle cx="192" cy="142" r="76" fill="#f2c8b8"/>
+  <path d="M104 150c16-92 168-108 184 0-34-38-64-52-96-52s-62 16-88 52z" fill="#2f2424"/>
+  <circle cx="166" cy="146" r="10" fill="#111827"/>
+  <circle cx="218" cy="146" r="10" fill="#111827"/>
+  <path d="M170 198c14 12 30 12 44 0" fill="none" stroke="#be123c" stroke-width="6" stroke-linecap="round"/>
+</svg>

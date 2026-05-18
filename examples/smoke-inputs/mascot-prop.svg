@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="384" height="384" viewBox="0 0 384 384" role="img" aria-label="Mascot prop smoke character">
+  <rect width="384" height="384" fill="#18181b"/>
+  <circle cx="192" cy="176" r="92" fill="#facc15"/>
+  <circle cx="160" cy="158" r="14" fill="#111827"/>
+  <circle cx="224" cy="158" r="14" fill="#111827"/>
+  <path d="M156 216c24 22 50 22 74 0" fill="none" stroke="#7f1d1d" stroke-width="8" stroke-linecap="round"/>
+  <path d="M110 98l46 22-34 38z" fill="#f97316"/>
+  <path d="M274 98l-46 22 34 38z" fill="#f97316"/>
+  <path d="M122 326c18-70 122-70 140 0z" fill="#22c55e"/>
+</svg>

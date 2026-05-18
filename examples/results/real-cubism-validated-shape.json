@@ -1,0 +1,14 @@
+{
+  "version": "1",
+  "status": "failed",
+  "classification": "contract_bundle_shape_validated",
+  "cubism_mode": "real_command",
+  "non_production_fixture": false,
+  "validation": {
+    "passed": false,
+    "bundle_shape_passed": true,
+    "provenance_passed": true,
+    "errors": ["independent real Cubism/runtime verification is not implemented"]
+  },
+  "note": "This is a result-shape example only. It is not bundled with real Cubism assets and must not be treated as real image-to-Live2D output."
+}
