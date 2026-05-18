@@ -1,0 +1,13 @@
+[project]
+name = "image2live2d"
+version = "0.1.0"
+description = "R&D scaffold for image-to-Live2D agent orchestration and model-service pipelines"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
