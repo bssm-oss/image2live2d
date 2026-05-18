@@ -2,7 +2,7 @@ PYTHON ?= python3
 PYTHONPATH := src
 export PYTHONPATH
 
-.PHONY: install lint test dev-service dev-preview demo-thin-e2e probe-cubism preflight-real-export runtime-smoke-mao static-quad-mao-texture validate-demo-bundle smoke
+.PHONY: install lint test dev-service dev-preview demo-thin-e2e probe-cubism preflight-real-export runtime-smoke-mao static-quad-mao-texture auto-rig-mao-texture validate-demo-bundle smoke
 
 install:
 	$(PYTHON) -m pip install -e .
@@ -33,6 +33,9 @@ runtime-smoke-mao:
 
 static-quad-mao-texture:
 	$(PYTHON) -m image2live2d.cli generate-static-quad-live2d --input-image /Users/Projects/bssm-oss/AIvtuber/Sources/AIvtuber/Resources/Avatars/Mao/Mao.2048/texture_00.png --output-dir output/static-quad-mao-texture --model-name mao_texture_static --core-js /Users/Projects/bssm-oss/AIvtuber/Sources/AIvtuber/Resources/Live2DViewer/vendor/live2dcubismcore.min.js
+
+auto-rig-mao-texture:
+	$(PYTHON) -m image2live2d.cli generate-auto-rig-live2d --input-image /Users/Projects/bssm-oss/AIvtuber/Sources/AIvtuber/Resources/Avatars/Mao/Mao.2048/texture_00.png --output-dir output/auto-rig-mao-texture --model-name mao_texture_autorig --core-js /Users/Projects/bssm-oss/AIvtuber/Sources/AIvtuber/Resources/Live2DViewer/vendor/live2dcubismcore.min.js
 
 validate-demo-bundle:
 	$(PYTHON) -m image2live2d.cli validate-bundle --model3 output/thin-e2e/cubism/demo_fixture_bundle/fixture.model3.json

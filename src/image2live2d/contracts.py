@@ -124,7 +124,7 @@ def referenced_runtime_files(model3: dict[str, Any]) -> list[str]:
     if isinstance(textures, list):
         files.extend(path for path in textures if isinstance(path, str))
 
-    for key in ("Physics", "Pose"):
+    for key in ("Physics", "Pose", "DisplayInfo"):
         value = refs.get(key)
         if isinstance(value, str):
             files.append(value)

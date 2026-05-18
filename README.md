@@ -12,12 +12,13 @@
 - 가짜 `.moc3`/fixture를 real export로 오인하지 않도록 차단
 - 기존 Live2D `.model3.json`/`.moc3` 번들을 Cubism Core로 runtime smoke 검증
 - PNG 한 장을 단일 정적 quad ArtMesh로 감싼 **실제 runtime-loadable `.moc3` 번들** 생성
+- PNG 한 장에서 휴리스틱 다중 파츠, warp deformer, 표정 파라미터, idle motion, physics 설정을 포함한 **runtime-loadable auto-rig scaffold** 생성
 - 웹 preview에서 demo, invalid, attempted, runtime-loaded 상태 분류
 
 ## 아직 안 되는 것
 
-- 임의 이미지에서 얼굴/머리/몸/의상 파츠를 자동 분해하는 것
-- 디포머, 표정 파라미터, 물리, 모션을 자동 생성하는 것
+- 임의 이미지에서 얼굴/머리/몸/의상 파츠를 픽셀 단위로 정확히 자동 분해하는 것
+- 디포머, 표정 파라미터, 물리, 모션을 상용 품질로 자동 생성하는 것
 - 상용 품질의 full-rig Live2D 캐릭터를 무조건 생성하는 것
 - Live2D Cubism Editor 없이 공식 Cubism export workflow를 완전히 대체하는 것
 
@@ -25,7 +26,8 @@
 
 ```text
 PNG -> static one-quad Live2D runtime bundle: 가능
-임의 이미지 -> full-rig Live2D 캐릭터: 아직 R&D 대상
+PNG -> heuristic multi-part auto-rig Live2D bundle: 가능
+임의 이미지 -> 상용 품질 full-rig Live2D 캐릭터: 아직 품질 보장 불가
 ```
 
 ## 구성
@@ -47,6 +49,7 @@ PYTHONPATH=src python3 -m image2live2d.cli preflight-real-export \
   --input examples/thin-e2e/input/curated-anime-placeholder.svg
 make runtime-smoke-mao
 make static-quad-mao-texture
+make auto-rig-mao-texture
 PYTHONPATH=src python3 -m image2live2d.cli probe-cubism
 make dev-service
 make dev-preview
@@ -70,12 +73,26 @@ make smoke
 make static-quad-mao-texture
 ```
 
+휴리스틱 auto-rig 번들 생성 + Cubism Core runtime 검증:
+
+```bash
+make auto-rig-mao-texture
+```
+
 로컬 기준 기대 결과:
 
 ```text
 status: completed
 capability: real_runtime_loaded
 warning: experimental static quad only; not an inferred rigged Live2D character
+```
+
+auto-rig 경로의 로컬 기준 기대 결과:
+
+```text
+status: completed
+capability: real_runtime_loaded
+warning: heuristic auto-rig; runtime-loadable when verified, but not guaranteed commercial-quality segmentation
 ```
 
 ## Capability Classification
@@ -138,6 +155,20 @@ PYTHONPATH=src python3 -m image2live2d.cli generate-static-quad-live2d \
 
 단, 이 기능은 자동 리깅이 아닙니다. source image에서 의미 있는 파츠, face rig, physics, motion, expression parameter를 추론하지 않습니다.
 
+## 휴리스틱 Auto-Rig Generator
+
+`generate-auto-rig-live2d`는 PNG 한 장에서 정해진 캐릭터 레이아웃을 기준으로 머리, 얼굴, 눈, 눈썹, 입, 머리카락, 몸통, 의상, 팔, 다리 영역을 나누고, 각 영역을 ArtMesh와 warp deformer로 생성합니다. 또한 표정 파라미터, idle `.motion3.json`, `.physics3.json`, `.cdi3.json`, hit area, LipSync/EyeBlink group을 함께 씁니다.
+
+```bash
+PYTHONPATH=src python3 -m image2live2d.cli generate-auto-rig-live2d \
+  --input-image /Users/Projects/bssm-oss/AIvtuber/Sources/AIvtuber/Resources/Avatars/Mao/Mao.2048/texture_00.png \
+  --output-dir output/auto-rig-mao-texture \
+  --model-name mao_texture_autorig \
+  --core-js /Users/Projects/bssm-oss/AIvtuber/Sources/AIvtuber/Resources/Live2DViewer/vendor/live2dcubismcore.min.js
+```
+
+로컬 기대 결과는 `capability: real_runtime_loaded`입니다. 이 경로는 실제 `.moc3`를 새로 만들고 Cubism Core consistency를 통과합니다. 다만 파츠 분해는 학습 기반 semantic segmentation이 아니라 휴리스틱 레이아웃이므로, 상용 품질 full rig를 보장하지는 않습니다.
+
 ## Strict Mode
 
 demo fixture를 허용하지 않고 real export만 요구하려면:
@@ -160,5 +191,6 @@ PYTHONPATH=src python3 -m image2live2d.cli demo-thin-e2e \
 3. runtime smoke 검증
 4. thin end-to-end demo
 5. 실제 Cubism Core가 받아들이는 static `.moc3` 생성 proof
+6. 실제 Cubism Core가 받아들이는 휴리스틱 auto-rig `.moc3` 생성 proof
 
 남은 핵심 연구 과제는 임의 캐릭터 이미지를 layered/rigged Cubism 구조로 바꾸는 것입니다.

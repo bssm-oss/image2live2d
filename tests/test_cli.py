@@ -112,6 +112,26 @@ class CliTests(unittest.TestCase):
             self.assertIn("capability: contract_bundle_shape_validated", completed.stdout)
             self.assertTrue((out / "cli_static.model3.json").exists())
 
+    def test_cli_auto_rig_generates_shape_valid_bundle(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            image = root / "input.png"
+            image.write_bytes(PNG_1X1)
+            out = root / "autorig"
+            completed = self._run_cli(
+                "generate-auto-rig-live2d",
+                "--input-image",
+                str(image),
+                "--output-dir",
+                str(out),
+                "--model-name",
+                "cli_autorig",
+            )
+            self.assertEqual(completed.returncode, 0, completed.stderr)
+            self.assertIn("capability: contract_bundle_shape_validated", completed.stdout)
+            self.assertTrue((out / "cli_autorig.model3.json").exists())
+            self.assertTrue((out / "auto_rig_plan.json").exists())
+
     def _run_cli(self, *args: str) -> subprocess.CompletedProcess[str]:
         env = os.environ.copy()
         env["PYTHONPATH"] = str(ROOT / "src")

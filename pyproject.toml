@@ -11,3 +11,6 @@ package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+image2live2d = ["js/*.mjs"]

@@ -5,6 +5,7 @@ import sys
 from pathlib import Path
 
 from .contracts import validate_model3_bundle
+from .autorig import generate_auto_rig_live2d
 from .cubism import preflight_real_export, probe_export_command
 from .model_service import serve
 from .orchestrator import run_thin_e2e
@@ -65,6 +66,16 @@ def build_parser() -> argparse.ArgumentParser:
     static_quad.add_argument("--model-name", default="static_quad")
     static_quad.add_argument("--core-js", default=None, type=Path, help="Path to official live2dcubismcore.min.js for runtime proof")
     static_quad.add_argument("--timeout", default=30, type=int)
+
+    auto_rig = subparsers.add_parser(
+        "generate-auto-rig-live2d",
+        help="Generate a heuristic multi-part Live2D bundle from a PNG and optionally runtime-smoke it",
+    )
+    auto_rig.add_argument("--input-image", required=True, type=Path)
+    auto_rig.add_argument("--output-dir", required=True, type=Path)
+    auto_rig.add_argument("--model-name", default="auto_rig")
+    auto_rig.add_argument("--core-js", default=None, type=Path, help="Path to official live2dcubismcore.min.js for runtime proof")
+    auto_rig.add_argument("--timeout", default=30, type=int)
 
     return parser
 
@@ -151,6 +162,22 @@ def main(argv: list[str] | None = None) -> int:
         if result.get("model3_path"):
             print(f"model3: {result['model3_path']}")
         print("warning: experimental static quad only; not an inferred rigged Live2D character")
+        for error in result.get("errors", []):
+            print(f"error: {error.get('code')} - {'; '.join(str(message) for message in error.get('messages', []))}")
+        return 0 if result["status"] == "completed" else 2
+    if args.command == "generate-auto-rig-live2d":
+        result = generate_auto_rig_live2d(
+            args.input_image,
+            args.output_dir,
+            model_name=args.model_name,
+            core_js_path=args.core_js,
+            timeout_seconds=args.timeout,
+        )
+        print(f"status: {result['status']}")
+        print(f"capability: {result['capability_classification']}")
+        if result.get("model3_path"):
+            print(f"model3: {result['model3_path']}")
+        print("warning: heuristic auto-rig; runtime-loadable when verified, but not guaranteed commercial-quality segmentation")
         for error in result.get("errors", []):
             print(f"error: {error.get('code')} - {'; '.join(str(message) for message in error.get('messages', []))}")
         return 0 if result["status"] == "completed" else 2

@@ -53,6 +53,7 @@ def main() -> int:
             run_validate_shape_only_bundle(env),
             run_preflight_real_export_blockers(env),
             run_static_quad_shape_generation(env),
+            run_auto_rig_generation(env),
             run_runtime_smoke_real_sample(env),
             run_service_lifecycle(env),
             run_preview_classifier(),
@@ -268,6 +269,43 @@ def run_static_quad_shape_generation(env: dict[str, str]) -> ScenarioResult:
     expected = "real_runtime_loaded" if uses_real_runtime else "contract_bundle_shape_validated"
     passed = completed.returncode == 0 and report.get("capability_classification") == expected
     return ScenarioResult("static quad generated bundle is honest and valid", passed, {**command_details(completed), "report": report})
+
+
+def run_auto_rig_generation(env: dict[str, str]) -> ScenarioResult:
+    source = Path("/Users/Projects/bssm-oss/AIvtuber/Sources/AIvtuber/Resources/Avatars/Mao/Mao.2048/texture_00.png")
+    if not source.exists():
+        source = OUTPUT_ROOT / "generated-inputs" / "auto-rig.png"
+        source.write_bytes(
+            bytes.fromhex(
+                "89504e470d0a1a0a0000000d49484452000000010000000108060000001f15c489"
+                "0000000a49444154789c63600000020001e221bc330000000049454e44ae426082"
+            )
+        )
+    out = OUTPUT_ROOT / "auto-rig"
+    args = [
+        "generate-auto-rig-live2d",
+        "--input-image",
+        str(source),
+        "--output-dir",
+        str(out),
+        "--model-name",
+        "smoke_auto_rig",
+    ]
+    core_js = Path("/Users/Projects/bssm-oss/AIvtuber/Sources/AIvtuber/Resources/Live2DViewer/vendor/live2dcubismcore.min.js")
+    uses_real_runtime = core_js.exists() and source.name == "texture_00.png"
+    if uses_real_runtime:
+        args.extend(["--core-js", str(core_js)])
+    completed = run_cli(args, env=env)
+    report = read_json(out / "auto_rig_report.json") if (out / "auto_rig_report.json").exists() else {}
+    expected = "real_runtime_loaded" if uses_real_runtime else "contract_bundle_shape_validated"
+    passed = (
+        completed.returncode == 0
+        and report.get("capability_classification") == expected
+        and "warp-deformers" in report.get("generated_features", [])
+        and "expression-parameters" in report.get("generated_features", [])
+    )
+    label = "auto-rig generated bundle is runtime-loadable" if uses_real_runtime else "auto-rig generated bundle is shape-valid"
+    return ScenarioResult(label, passed, {**command_details(completed), "report": report})
 
 
 def run_service_lifecycle(env: dict[str, str]) -> ScenarioResult:
