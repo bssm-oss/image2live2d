@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>image2live2d Preview</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="panel">
+        <p class="eyebrow">image2live2d</p>
+        <h1>Runtime Preview Gate</h1>
+        <p class="lede">Paste `preview_metadata.json` to classify the bundle state. Demo fixtures are visible, but they never count as real Cubism export.</p>
+        <textarea id="metadata" spellcheck="false" placeholder='{"classification":"demo_fixture"}'></textarea>
+        <button id="classify">Classify Preview State</button>
+      </section>
+      <section class="panel result" aria-live="polite">
+        <h2 id="state-title">No metadata loaded</h2>
+        <p id="state-message">Paste metadata and classify.</p>
+        <dl>
+          <dt>Capability</dt>
+          <dd id="capability">unknown</dd>
+          <dt>Model path</dt>
+          <dd id="model-path">n/a</dd>
+        </dl>
+      </section>
+    </main>
+    <script src="preview.js"></script>
+  </body>
+</html>
